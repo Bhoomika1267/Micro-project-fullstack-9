@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Add Student{% endblock %}
+{% block content %}
+<h2>Add Student</h2>
+<form method="post">
+  {% csrf_token %}
+  <label>Roll No</label><input name="roll_no" required>
+  <label>Name</label><input name="name" required>
+  <label>Phone</label><input name="phone">
+  <label>Email</label><input type="email" name="email">
+  <label>Room</label>
+  <select name="room">
+    <option value="">-- None --</option>
+    {% for r in rooms %}
+      <option value="{{ r.id }}">{{ r.number }} ({{ r.occupied }}/{{ r.capacity }})</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Save</button>
+</form>
+{% endblock %}

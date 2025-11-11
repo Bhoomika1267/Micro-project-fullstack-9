@@ -1,0 +1,48 @@
+{% load static %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Hostel Pro{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <h1 class="brand">Hostel Pro</h1>
+      <nav class="main-nav">
+        {% if user.is_authenticated %}
+          <!-- staff nav -->
+          <a href="{% url 'malnad_app:staff_dashboard' %}">Staff Dashboard</a>
+          <a href="{% url 'malnad_app:student_list' %}">Manage Students</a>
+          <a href="{% url 'malnad_app:room_list' %}">Rooms</a>
+          <a href="{% url 'malnad_app:booking_list' %}">Bookings</a>
+          <a href="{% url 'any_logout' %}">Logout</a>
+        {% elif request.session.student_id %}
+          <!-- student nav -->
+          <a href="{% url 'malnad_app:student_dashboard' %}">My Dashboard</a>
+          <a href="{% url 'malnad_app:student_logout' %}">Logout</a>
+        {% else %}
+          <a href="{% url 'landing' %}">Login</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <small>© {{ now|date:"Y" }} Hostel Pro</small>
+  </footer>
+</body>
+</html>

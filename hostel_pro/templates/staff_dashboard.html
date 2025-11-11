@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Staff Dashboard{% endblock %}
+{% block content %}
+<h2>Staff Dashboard</h2>
+<ul class="cards">
+  <li>Total Students: {{ stats.total_students }}</li>
+  <li>Total Rooms: {{ stats.total_rooms }}</li>
+  <li>Total Bookings: {{ stats.total_bookings }}</li>
+  <li>Available Rooms: {{ stats.available_rooms }}</li>
+</ul>
+{% endblock %}

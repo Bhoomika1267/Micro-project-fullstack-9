@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}New Booking{% endblock %}
+{% block content %}
+<h2>New Booking</h2>
+<form method="post">
+  {% csrf_token %}
+  <label>Student</label>
+  <select name="student" required>
+    {% for s in students %}<option value="{{ s.id }}">{{ s.roll_no }} - {{ s.name }}</option>{% endfor %}
+  </select>
+
+  <label>Room</label>
+  <select name="room" required>
+    {% for r in rooms %}<option value="{{ r.id }}">{{ r.number }} ({{ r.occupied }}/{{ r.capacity }})</option>{% endfor %}
+  </select>
+
+  <label>Start Date</label><input type="date" name="start_date" required>
+  <label>End Date</label><input type="date" name="end_date">
+  <button type="submit">Create</button>
+</form>
+{% endblock %}

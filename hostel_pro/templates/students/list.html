@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<h2>Students</h2>
+<a href="{% url 'malnad_app:student_create' %}">+ Add Student</a>
+<table>
+  <thead><tr><th>Roll No</th><th>Name</th><th>Room</th><th>Phone</th></tr></thead>
+  <tbody>
+  {% for s in students %}
+    <tr>
+      <td>{{ s.roll_no }}</td>
+      <td>{{ s.name }}</td>
+      <td>{% if s.room %}{{ s.room.number }}{% else %}—{% endif %}</td>
+      <td>{{ s.phone }}</td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="4">No students yet.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

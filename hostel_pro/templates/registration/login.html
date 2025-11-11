@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login • Hostel Pro</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    .login-wrap { display:flex; min-height:100vh; align-items:center; justify-content:center; }
+    .login-card { width:360px; padding:28px; border-radius:10px; background:#fff; box-shadow:0 8px 24px rgba(0,0,0,.06); }
+    .login-card h2 { margin:0 0 12px; font-size:20px; }
+    .login-card input { width:100%; padding:10px; margin:8px 0; border:1px solid #ddd; border-radius:6px; }
+    .login-card button { width:100%; padding:10px; margin-top:10px; border:none; border-radius:6px; cursor:pointer; }
+    .small { font-size:0.9rem; color:#666; margin-top:8px; display:block; text-align:center; }
+  </style>
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="login-card">
+      <h2>Sign in to Hostel Pro</h2>
+
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+        <label for="id_username">Username</label>
+        {{ form.username }}
+
+        <label for="id_password">Password</label>
+        {{ form.password }}
+
+        <button type="submit">Sign in</button>
+      </form>
+
+      <span class="small">If you are a student and need a separate login, tell me and I’ll add it.</span>
+    </div>
+  </div>
+</body>
+</html>

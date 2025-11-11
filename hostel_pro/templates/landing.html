@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Welcome • Hostel Pro</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    .wrap { display:flex; gap:32px; max-width:980px; margin:4rem auto; }
+    .card { flex:1; padding:20px; border-radius:8px; background:#fff; box-shadow:0 6px 18px rgba(0,0,0,.04); }
+    .login-field { width:100%; padding:10px; margin:8px 0; }
+  </style>
+</head>
+<body>
+  <main>
+    {% if messages %}
+      <ul class="messages" style="max-width:980px;margin:12px auto;">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <div class="wrap">
+      <div class="card">
+        <h3>Student Sign-in</h3>
+        <form method="post">
+          {% csrf_token %}
+          <label>USN (Roll No)</label>
+          <input class="login-field" name="usn" placeholder="e.g. 3DS20CS001" required>
+          <label>Name</label>
+          <input class="login-field" name="name" placeholder="Full name" required>
+          <div style="display:flex; justify-content:space-between; gap:8px;">
+            <button name="student_login" type="submit">Student Sign in</button>
+            <a href="{% url 'admin:login' %}">Admin</a>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Staff Login</h3>
+        <form method="post">
+          {% csrf_token %}
+          {{ staff_form.non_field_errors }}
+          <label>Username</label>
+          {{ staff_form.username }}
+          <label>Password</label>
+          {{ staff_form.password }}
+          <div style="margin-top:8px;">
+            <button name="staff_login" type="submit">Staff Sign in</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
