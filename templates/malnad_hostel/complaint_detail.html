@@ -1,0 +1,28 @@
+{% extends 'malnad_hostel/base.html' %}
+{% block content %}
+<h2>{{ complaint.title }}</h2>
+<p><strong>Category:</strong> {{ complaint.category }} — <strong>Status:</strong> {{ complaint.get_status_display }}</p>
+<p>{{ complaint.description }}</p>
+
+<h5 class="mt-4">Comments</h5>
+<ul class="list-group mb-3">
+  {% for cm in complaint.comments.all %}
+    <li class="list-group-item">
+      <strong>{{ cm.author.get_full_name|default:cm.author.username }}</strong>
+      <div class="small text-muted">{{ cm.created_at|date:"d M Y H:i" }}</div>
+      <div>{{ cm.comment }}</div>
+    </li>
+  {% empty %}
+    <li class="list-group-item text-muted">No comments yet</li>
+  {% endfor %}
+</ul>
+
+{% if user.is_staff %}
+  <h5>Add Comment</h5>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary">Add Comment</button>
+  </form>
+{% endif %}
+{% endblock %}

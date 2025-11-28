@@ -1,0 +1,28 @@
+{% extends 'malnad_hostel/base.html' %}
+
+{% block content %}
+<h2>Your Fees</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th><th>Amount</th><th>Paid</th><th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for f in fees %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ f.amount }}</td>
+      <td>{{ f.paid }}</td>
+      <td>{{ f.timestamp }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4">No fee records</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

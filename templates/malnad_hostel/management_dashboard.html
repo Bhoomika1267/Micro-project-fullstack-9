@@ -1,0 +1,180 @@
+{% extends 'malnad_hostel/base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="mb-0">Management Dashboard</h2>
+  <div>
+    <a class="btn btn-outline-secondary" href="{% url 'admin:index' %}"><i class="bi bi-speedometer2"></i> Admin</a>
+  </div>
+</div>
+
+<!-- summary cards -->
+<div class="row g-3 mb-4">
+  <div class="col-sm-4">
+    <div class="card p-3">
+      <div class="d-flex align-items-center">
+        <div class="me-3">
+          <i class="bi bi-door-open-fill fs-2 text-success"></i>
+        </div>
+        <div>
+          <div class="small text-muted">Rooms</div>
+          <div class="h5 mb-0">{{ rooms.count }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="card p-3">
+      <div class="d-flex align-items-center">
+        <div class="me-3">
+          <i class="bi bi-exclamation-circle-fill fs-2 text-warning"></i>
+        </div>
+        <div>
+          <div class="small text-muted">Open Complaints</div>
+          <div class="h5 mb-0">{{ complaints.count }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="card p-3">
+      <div class="d-flex align-items-center">
+        <div class="me-3">
+          <i class="bi bi-cash-stack fs-2 text-primary"></i>
+        </div>
+        <div>
+          <div class="small text-muted">Pending Fees</div>
+          <div class="h5 mb-0">{{ fees.count }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Rooms list -->
+  <div class="col-lg-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Rooms</h5>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Room</th>
+                <th>Cap</th>
+                <th>Occupied</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in rooms %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>
+                  <a href="{% url 'malnad_hostel:room_detail' r.pk %}">{{ r.number }}</a>
+                </td>
+                <td>{{ r.capacity }}</td>
+                <td>{{ r.occupied }}</td>
+                <td>
+                  <a class="btn btn-sm btn-outline-primary" href="{% url 'malnad_hostel:room_detail' r.pk %}">View</a>
+                  {% if user.is_staff %}
+                    <a class="btn btn-sm btn-success" href="{% url 'malnad_hostel:allocate_to_room' r.pk %}">Allocate</a>
+                  {% endif %}
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="5" class="text-center text-muted">No rooms found.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Complaints & Fees -->
+  <div class="col-lg-6">
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Open Complaints</h5>
+
+        {% if complaints %}
+          <ul class="list-group list-group-flush">
+            {% for c in complaints %}
+              <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="me-3">
+                  <strong>{{ c.title }}</strong><br>
+                  <small class="text-muted">By: {{ c.student.user.get_full_name|default:c.student.user.username }} — {{ c.created_at|date:"d M Y H:i" }}</small>
+                </div>
+
+                <div class="ms-auto d-flex gap-2">
+                  <a class="btn btn-sm btn-outline-secondary" href="{% url 'admin:malnad_hostel_complaint_change' c.pk %}">Edit</a>
+                  <a class="btn btn-sm btn-success" href="{% url 'malnad_hostel:resolve_complaint' c.pk %}">Mark Resolved</a>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="text-muted small">No open complaints.</div>
+        {% endif %}
+
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Pending Fees</h5>
+
+        <div class="table-responsive">
+          <table class="table table-sm table-hover align-middle">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Student</th>
+                <th>Amount</th>
+                <th>Paid</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for f in fees %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ f.student.user.get_full_name|default:f.student.user.username }}</td>
+                  <td>{{ f.amount }}</td>
+                  <td>
+                    {% if f.paid %}
+                      <span class="badge bg-success">Yes</span>
+                    {% else %}
+                      <span class="badge bg-danger">No</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if not f.paid %}
+                      <a class="btn btn-sm btn-success" href="{% url 'malnad_hostel:mark_fee_paid' f.pk %}">Mark Paid</a>
+                    {% else %}
+                      <a class="btn btn-sm btn-outline-secondary" href="{% url 'admin:malnad_hostel_fee_change' f.pk %}">Edit</a>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="5" class="text-center text-muted">No fee records.</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+/* basic reset / fonts */
+:root{
+  --accent: #ffd166;
+  --soft: #f6f9fc;
+}
+
+/* page background */
+.bg-soft { background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%); min-height:100vh; }
+
+/* HERO */
+.bg-hero{
+  background: linear-gradient(135deg, rgba(9,110,255,0.95), rgba(42,140,255,0.92));
+  color: #fff;
+  overflow: hidden;
+}
+
+.hero-title { font-size: 2.25rem; line-height:1.05; }
+.hero-sub { color: rgba(255,255,255,0.9); }
+
+.accent { color: var(--accent); font-weight:700; }
+
+/* hero card image */
+.hero-card img { max-height:220px; object-fit:cover; display:block; margin:0 auto; border-radius:8px; }
+
+/* subtle scale animation for image */
+.animated-scale { transform: scale(0.98); transition: transform .6s ease, box-shadow .4s ease; }
+.animated-scale:hover { transform: scale(1.01); box-shadow: 0 12px 40px rgba(2,6,23,0.18); }
+
+/* feature cards */
+.feature-card { border: none; border-radius:12px; transition: transform .35s ease, box-shadow .35s ease; background: #fff;}
+.feature-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(2,6,23,0.06); }
+
+.icon-circle { width:48px; height:48px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.25rem; }
+
+/* link cards */
+.link-card { border-radius:10px; transition: transform .25s ease, box-shadow .25s ease; color: inherit; background: #fff; }
+.link-card:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(2,6,23,0.06); }
+
+.p-4 { padding:1.5rem !important; }
+
+/* responsive tweaks */
+@media (max-width: 767px) {
+  .hero-title { font-size: 1.6rem; }
+  .hero-card img { max-height:160px; }
+}
+
+/* small reveal animation fallback */
+.feature-card, .link-card { transform: translateY(8px); opacity: 0; transition: all .45s cubic-bezier(.2,.9,.3,1); }

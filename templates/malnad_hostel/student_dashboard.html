@@ -1,0 +1,40 @@
+{% extends 'malnad_hostel/base.html' %}
+
+{% block content %}
+<h2>Student Dashboard</h2>
+
+<p>Hi, {{ student.user.get_full_name|default:student.user.username }}!</p>
+
+<div class="row">
+
+  <div class="col-md-6">
+    <h4>Your Room</h4>
+
+    {% if student.room %}
+      <p>{{ student.room }} — Capacity: {{ student.room.capacity }}</p>
+      <a class="btn btn-outline-secondary" href="{% url 'malnad_hostel:room_detail' student.room.id %}">
+        View Room
+      </a>
+    {% else %}
+      <p>No room assigned yet.</p>
+    {% endif %}
+
+    <h4 class="mt-3">Actions</h4>
+    <a href="{% url 'malnad_hostel:create_complaint' %}" class="btn btn-success">Submit Complaint</a>
+    <a href="{% url 'malnad_hostel:fees' %}" class="btn btn-warning">View Fees</a>
+  </div>
+
+  <div class="col-md-6">
+    <h4>Mess Menu</h4>
+    <ul>
+      {% for item in upcoming_menu %}
+        <li>{{ item.date }} — Breakfast: {{ item.breakfast|default:"-" }}</li>
+      {% empty %}
+        <li>No menu data available</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+</div>
+
+{% endblock %}

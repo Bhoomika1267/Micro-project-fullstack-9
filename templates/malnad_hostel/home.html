@@ -1,0 +1,121 @@
+{% extends 'malnad_hostel/base.html' %}
+
+{% block content %}
+<!-- HERO -->
+<section class="hero bg-hero rounded-3 p-5 mb-4 text-white">
+  <div class="row align-items-center">
+    <div class="col-lg-7">
+      <h1 class="display-5 fw-bold hero-title">Welcome to <span class="accent">Hostel Manager</span></h1>
+      <p class="lead hero-sub">A simple, efficient and user-friendly Django-based hostel management system — student dashboard, management tools, complaints, fees and mess menu.</p>
+
+      <div class="mt-4">
+        {% if user.is_authenticated %}
+          <a class="btn btn-light btn-lg me-2" href="{% url 'malnad_hostel:student_dashboard' %}"><i class="bi bi-speedometer2 me-1"></i> Go to Dashboard</a>
+          {% if user.is_staff %}
+            <a class="btn btn-outline-light btn-lg" href="{% url 'malnad_hostel:management_dashboard' %}"><i class="bi bi-tools me-1"></i> Management</a>
+          {% endif %}
+        {% else %}
+          <a class="btn btn-light btn-lg me-2" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right me-1"></i> Login</a>
+          <a class="btn btn-outline-light btn-lg" href="{% url 'malnad_hostel:register' %}"><i class="bi bi-person-plus me-1"></i> Register</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-lg-5 text-center mt-4 mt-lg-0">
+      <div class="hero-card p-4 rounded shadow-sm animated-scale">
+        <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="hostel" class="img-fluid rounded">
+        <p class="mt-3 mb-0 small text-muted">Manage rooms, fees and complaints with ease.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features mb-5">
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card h-100 p-3 feature-card">
+        <div class="d-flex align-items-center">
+          <div class="icon-circle bg-primary text-white me-3"><i class="bi bi-people-fill"></i></div>
+          <div>
+            <h5 class="mb-1">Student Dashboard</h5>
+            <p class="mb-0 small text-muted">Profile, room details, complaints and fees — all in one place.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 p-3 feature-card">
+        <div class="d-flex align-items-center">
+          <div class="icon-circle bg-success text-white me-3"><i class="bi bi-door-open-fill"></i></div>
+          <div>
+            <h5 class="mb-1">Room Allocation</h5>
+            <p class="mb-0 small text-muted">Management can allocate or reassign rooms quickly and track occupancy.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 p-3 feature-card">
+        <div class="d-flex align-items-center">
+          <div class="icon-circle bg-warning text-white me-3"><i class="bi bi-cash-stack"></i></div>
+          <div>
+            <h5 class="mb-1">Fees & Reports</h5>
+            <p class="mb-0 small text-muted">Track payments and generate simple reports for management.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK LINKS -->
+<section class="quick-links mb-5">
+  <div class="row">
+    <div class="col-md-4">
+      <a class="card link-card text-decoration-none" href="{% url 'malnad_hostel:register' %}">
+        <div class="card-body">
+          <h6 class="mb-0"><i class="bi bi-person-plus me-2"></i> Register</h6>
+          <p class="small text-muted mb-0">Create a new student account.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-4">
+      <a class="card link-card text-decoration-none" href="{% url 'login' %}">
+        <div class="card-body">
+          <h6 class="mb-0"><i class="bi bi-box-arrow-in-right me-2"></i> Login</h6>
+          <p class="small text-muted mb-0">Sign in to access your dashboard.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="col-md-4">
+      <a class="card link-card text-decoration-none" href="{% url 'malnad_hostel:management_dashboard' %}">
+        <div class="card-body">
+          <h6 class="mb-0"><i class="bi bi-gear-fill me-2"></i> Management</h6>
+          <p class="small text-muted mb-0">For staff users only (mark yourself as staff in admin).</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER CTA -->
+<section class="text-center mb-5">
+  <p class="text-muted small">Built for learning & quick prototyping. Want new features? Add room allocation, file uploads, or payment gateway integrations.</p>
+</section>
+
+<!-- tiny JS for reveal animation (no external libs) -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const els = document.querySelectorAll('.feature-card, .link-card');
+    els.forEach((el, i) => {
+      el.style.opacity = 0;
+      setTimeout(() => { el.style.transform = 'translateY(0)'; el.style.opacity = 1; }, 120*i);
+    });
+  });
+</script>
+{% endblock %}

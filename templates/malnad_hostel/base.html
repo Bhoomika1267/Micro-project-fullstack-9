@@ -1,0 +1,73 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hostel Manager</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Your site CSS -->
+  <link rel="stylesheet" href="{% static 'malnad_hostel/styles.css' %}">
+</head>
+
+<body class="bg-soft">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'malnad_hostel:malnad_home' %}">
+      <i class="bi bi-building-fill me-2"></i>
+      <span>Hostel Manager</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'malnad_hostel:student_dashboard' %}">Dashboard</a></li>
+          {% if user.is_staff %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'malnad_hostel:management_dashboard' %}">Management</a></li>
+          {% endif %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'malnad_hostel:register' %}">Register</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Page content -->
+<main>
+  <div class="container mt-4">
+
+    {% if messages %}
+      <div class="mt-2">
+        {% for m in messages %}
+          <div class="alert alert-{{ m.tags }}">{{ m }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </div>
+</main>
+
+<footer class="mt-5 py-4 bg-white border-top">
+  <div class="container text-center small text-muted">
+    © {{ now.year }} Hostel Manager — Simple Django project • Built with ❤
+  </div>
+</footer>
+
+<!-- Bootstrap JS bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

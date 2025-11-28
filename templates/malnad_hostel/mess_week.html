@@ -1,0 +1,20 @@
+{% extends 'malnad_hostel/base.html' %}
+{% block content %}
+<h2>Mess Menu - This Week</h2>
+<div class="row g-3">
+  {% for d, m in ordered %}
+  <div class="col-md-4">
+    <div class="card p-3 h-100">
+      <div class="small text-muted">{{ d|date:"D, d M Y" }}</div>
+      {% if m %}
+        <div><strong>Breakfast:</strong> {{ m.breakfast }}</div>
+        <div><strong>Lunch:</strong> {{ m.lunch }}</div>
+        <div><strong>Dinner:</strong> {{ m.dinner }}</div>
+      {% else %}
+        <div class="text-muted">No menu set</div>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

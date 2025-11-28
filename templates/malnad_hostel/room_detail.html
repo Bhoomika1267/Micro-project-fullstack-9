@@ -1,0 +1,25 @@
+{% extends 'malnad_hostel/base.html' %}
+{% load static %}
+{% block content %}
+<h2>Room {{ room.number }}</h2>
+<p>Capacity: {{ room.capacity }} | Occupied: {{ room.occupied }}</p>
+
+{% if user.is_staff %}
+  <a class="btn btn-outline-primary mb-3" href="{% url 'malnad_hostel:allocate_to_room' room.pk %}">Allocate Student</a>
+{% endif %}
+
+<h4>Assigned Students</h4>
+<ul>
+  {% for st in room.student_set.all %}
+    <li>
+      {{ st.user.get_full_name|default:st.user.username }} — {{ st.roll_no }}
+      {% if user.is_staff %}
+        <a class="btn btn-outline-primary mb-3" href="{% url 'malnad_hostel:allocate_to_room' room.pk %}">Allocate Student</a>
+{% endif %}
+    </li>
+  {% empty %}
+    <li>No students assigned</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
